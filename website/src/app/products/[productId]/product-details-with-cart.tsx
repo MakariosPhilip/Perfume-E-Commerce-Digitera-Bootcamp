@@ -26,7 +26,7 @@ export function ProductDetailsWithCart({
           selectedOptions={selectedOptions}
           quantity={quantity}
           label={`Add to Cart / ${formatWholePrice(unitPrice)}`}
-          className="flex w-full items-center justify-center rounded bg-[#1a1a1a] py-4 text-[13px] leading-[normal] font-bold text-white uppercase"
+          className="flex w-full items-center justify-center rounded border border-solid border-[#ebe6de] bg-white py-4 text-[13px] leading-[normal] font-bold text-[#1a1a1a] uppercase transition-colors duration-300 hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white"
         />
       )}
     />

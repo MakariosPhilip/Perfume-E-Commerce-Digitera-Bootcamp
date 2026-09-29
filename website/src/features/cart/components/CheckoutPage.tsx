@@ -21,7 +21,7 @@ type PaymentMethod = "card" | "cash";
 const fieldClassName =
   "w-full rounded-[4px] border border-[#ebe6de] bg-white px-4 text-[14px] leading-[normal] text-[#1a1a1a] outline-none focus:border-[#1a1a1a]";
 
-const WHATSAPP_ORDER_URL = "https://wa.me/DIGITERA-WHATSAPP-NUMBER";
+const WHATSAPP_ORDER_URL = "https://wa.me/201283175754";
 
 function buildOrderMessage(input: {
   recipientName: string;
@@ -81,7 +81,7 @@ export function CheckoutPage() {
   const [city, setCity] = useState("");
   const [postalCode, setPostalCode] = useState("");
   const [note, setNote] = useState("");
-  const [placed, setPlaced] = useState(false);
+  const [whatsAppHandoff, setWhatsAppHandoff] = useState<"idle" | "opened" | "blocked">("idle");
 
   useEffect(() => {
     const saved = readCheckoutDetails();
@@ -98,11 +98,10 @@ export function CheckoutPage() {
     setPaymentMethod(saved.paymentMethod);
   }, []);
 
-  const phoneVerified = phone.trim().length > 0;
   const canPlaceOrder =
     lines.length > 0 &&
     recipientName.trim() &&
-    phoneVerified &&
+    phone.trim() &&
     address.trim() &&
     city.trim() &&
     postalCode.trim();
@@ -147,11 +146,11 @@ export function CheckoutPage() {
             note,
             paymentMethod,
           });
-          setPlaced(true);
-          window.open(
+          const whatsAppWindow = window.open(
             `${WHATSAPP_ORDER_URL}?text=${encodeURIComponent(message)}`,
             "_blank",
           );
+          setWhatsAppHandoff(whatsAppWindow ? "opened" : "blocked");
         }}
       >
         <div className="flex min-w-0 flex-1 flex-col gap-7">
@@ -160,7 +159,7 @@ export function CheckoutPage() {
               Checkout
             </h1>
             <p className="text-[14px] leading-[normal] font-normal text-[#605a54]">
-              Complete your delivery details to place your order.
+              Complete your delivery details and send the order request through WhatsApp.
             </p>
           </div>
           <div className="flex flex-col gap-[18px]">
@@ -190,20 +189,9 @@ export function CheckoutPage() {
                     type="tel"
                     value={phone}
                     onChange={(event) => setPhone(event.target.value)}
-                    aria-describedby={
-                      phoneVerified ? "phone-verified" : undefined
-                    }
                     className={cn(fieldClassName, "h-[52px]")}
                   />
                 </label>
-                {phoneVerified ? (
-                  <p
-                    id="phone-verified"
-                    className="text-[11px] leading-[normal] font-normal text-[#2f7a55]"
-                  >
-                    ✓ Phone number verified
-                  </p>
-                ) : null}
               </div>
               <label className="flex flex-col gap-2">
                 <span className="text-[12px] leading-[normal] font-bold text-[#1a1a1a] uppercase">
@@ -253,12 +241,12 @@ export function CheckoutPage() {
         </div>
         <div className="flex w-full shrink-0 flex-col gap-6 lg:w-[400px]">
           <h2 className="font-[family-name:var(--font-instrument-serif)] text-[32px] leading-[normal] text-[#1a1a1a] lg:text-[36px]">
-            Payment
+            Payment preference
           </h2>
           <div
             className="flex flex-col gap-3"
             role="radiogroup"
-            aria-label="Payment method"
+            aria-label="Payment preference"
           >
             <PaymentOption
               name="Credit / Debit Card"
@@ -284,17 +272,21 @@ export function CheckoutPage() {
             </div>
             <button
               type="submit"
-              disabled={!canPlaceOrder || placed}
+              disabled={!canPlaceOrder || whatsAppHandoff === "opened"}
               className="w-full rounded bg-[#1a1a1a] py-4 text-[13px] leading-[normal] font-bold text-white uppercase disabled:cursor-not-allowed disabled:opacity-40"
             >
-              {placed ? "Order placed" : "Place order"}
+              {whatsAppHandoff === "opened" ? "WhatsApp opened" : "Continue in WhatsApp"}
             </button>
-            <p className="text-center text-[10px] leading-[normal] font-normal text-[#605a54] uppercase">
-              Secure checkout · Visa · Mastercard · Amex
+            <p className="text-center text-[10px] leading-[normal] font-normal text-[#605a54]">
+              Your payment preference will be included in the WhatsApp request.
             </p>
-            {placed ? (
+            {whatsAppHandoff === "opened" ? (
               <p className="text-center text-[12px] leading-[normal] text-[#2f7a55]">
-                Your order has been placed.
+                Send the prepared message in WhatsApp to submit your order request.
+              </p>
+            ) : whatsAppHandoff === "blocked" ? (
+              <p className="text-center text-[12px] leading-[normal] text-[#a13f32]">
+                WhatsApp did not open. Allow popups and try again.
               </p>
             ) : null}
           </div>

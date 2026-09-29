@@ -5,11 +5,12 @@ import { create } from "zustand";
 export type Toast = {
   id: string;
   message: string;
+  image?: string;
 };
 
 type ToastStore = {
   toasts: Toast[];
-  show: (message: string) => void;
+  show: (message: string, image?: string) => void;
   dismiss: (id: string) => void;
 };
 
@@ -18,10 +19,10 @@ const timers = new Map<string, number>();
 
 export const useToastStore = create<ToastStore>((set, get) => ({
   toasts: [],
-  show: (message) => {
+  show: (message, image) => {
     const id = crypto.randomUUID();
     set((state) => ({
-      toasts: [...state.toasts.slice(-2), { id, message }],
+      toasts: [...state.toasts.slice(-2), { id, message, image }],
     }));
     timers.set(
       id,

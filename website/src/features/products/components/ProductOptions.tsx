@@ -48,7 +48,7 @@ export function ProductOptions({
                   type="button"
                   aria-pressed={isSelected}
                   className={cn(
-                    "flex min-w-0 flex-1 flex-col items-center gap-1 rounded p-3",
+                    "flex min-w-0 flex-1 flex-col items-center gap-1 rounded p-3 transition-colors duration-300 hover:border-[#c5a880] hover:bg-white",
                     isSelected
                       ? "border-2 border-[#1a1a1a] bg-white"
                       : "border border-[#ebe6de]",

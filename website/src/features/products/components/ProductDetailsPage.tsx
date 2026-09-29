@@ -16,12 +16,6 @@ import { productPaths } from "@/features/products/paths";
 import type { Product } from "@/features/products/types/product.types";
 import { cn } from "@/lib/utils/cn";
 
-const VOLUME_PRESETS = [
-  { id: "30 ml", label: "30 ml", ratio: 140 / 220 },
-  { id: "50 ml", label: "50 ml", ratio: 180 / 220 },
-  { id: "100 ml", label: "100 ml", ratio: 1 },
-] as const;
-
 export type ProductDetailsActionsContext = {
   product: Product;
   selectedOptions: Record<string, string>;
@@ -49,17 +43,7 @@ function volumeGroups(product: Product): VolumeGroup[] {
     }));
   }
 
-  return [
-    {
-      id: "volume",
-      label: "Select Volume",
-      choices: VOLUME_PRESETS.map((preset) => ({
-        id: preset.id,
-        label: preset.label,
-        price: Math.round(product.price * preset.ratio),
-      })),
-    },
-  ];
+  return [];
 }
 
 function ProductBreadcrumb({ name }: { name: string }) {
@@ -213,27 +197,18 @@ export function ProductDetailsPage({
 
   const catalog = relatedQuery.data?.items;
   const related = useMemo(() => {
-    const items = catalog ?? [];
-    const companionIds = [
-      "fleur-de-lune",
-      "noir-cocoon",
-      "sol-dor",
-      "rose-absolute",
-    ];
-    const companions = companionIds
-      .filter((id) => id !== productId)
-      .map((id) => items.find((item) => item.id === id))
-      .filter((item): item is Product => Boolean(item));
+    if (!catalog || !product) return [];
 
-    return [
-      ...companions,
-      ...items.filter(
-        (item) =>
-          item.id !== productId &&
-          !companions.some((companion) => companion.id === item.id),
-      ),
-    ].slice(0, 4);
-  }, [catalog, productId]);
+    return catalog
+      .filter((item) => item.id !== productId)
+      .sort((left, right) => {
+        const score = (item: Product) =>
+          Number(item.scentFamily === product.scentFamily) * 2 +
+          Number(item.category === product.category);
+        return score(right) - score(left);
+      })
+      .slice(0, 4);
+  }, [catalog, product, productId]);
 
   if (productQuery.isLoading) {
     return (

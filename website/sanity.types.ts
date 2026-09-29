@@ -251,6 +251,24 @@ export type AllSanitySchemaTypes =
   | Geopoint;
 
 // Source: ../website/src/sanity/queries.ts
+// Variable: PRODUCT_FILTER_OPTIONS_QUERY
+// Query: {  "categories": *[_type == "category" && defined(slug.current)] | order(title asc) { "id": slug.current, "label": title },  "scentFamilies": *[_type == "scentFamily" && defined(slug.current)] | order(title asc) { "id": slug.current, "label": title },  "occasions": *[_type == "occasion" && defined(slug.current)] | order(title asc) { "id": slug.current, "label": title }}
+export type PRODUCT_FILTER_OPTIONS_QUERY_RESULT = {
+  categories: Array<{
+    id: string | null;
+    label: string | null;
+  }>;
+  scentFamilies: Array<{
+    id: string | null;
+    label: string | null;
+  }>;
+  occasions: Array<{
+    id: string | null;
+    label: string | null;
+  }>;
+};
+
+// Source: ../website/src/sanity/queries.ts
 // Variable: PRODUCT_QUERY
 // Query: *[_type == "product" && slug.current == $slug][0] {  _id,  name,  "slug": slug.current,  description,  notes,  price,  images[]{    alt,    asset,    crop,    hotspot  },  "category": category->slug.current,  "scentFamily": scentFamily->slug.current,  "occasion": occasion->slug.current,  options[]{    _key,    name,    values  }}
 export type PRODUCT_QUERY_RESULT = {
@@ -279,6 +297,7 @@ export type PRODUCT_QUERY_RESULT = {
 // Query TypeMap
 declare global {
   interface SanityQueries {
+    '{\n  "categories": *[_type == "category" && defined(slug.current)] | order(title asc) { "id": slug.current, "label": title },\n  "scentFamilies": *[_type == "scentFamily" && defined(slug.current)] | order(title asc) { "id": slug.current, "label": title },\n  "occasions": *[_type == "occasion" && defined(slug.current)] | order(title asc) { "id": slug.current, "label": title }\n}': PRODUCT_FILTER_OPTIONS_QUERY_RESULT;
     '\n  *[_type == "product" && slug.current == $slug][0] {\n  _id,\n  name,\n  "slug": slug.current,\n  description,\n  notes,\n  price,\n  images[]{\n    alt,\n    asset,\n    crop,\n    hotspot\n  },\n  "category": category->slug.current,\n  "scentFamily": scentFamily->slug.current,\n  "occasion": occasion->slug.current,\n  options[]{\n    _key,\n    name,\n    values\n  }\n}\n': PRODUCT_QUERY_RESULT;
   }
 }

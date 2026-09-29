@@ -12,26 +12,8 @@ export const DEFAULT_PRODUCT_SORT: ProductSort = "price-desc";
 export const PRICE_FILTER_MIN = 0;
 export const PRICE_FILTER_MAX = 1000;
 
-const IMAGE_FALLBACKS: Record<string, string[]> = {
-  "fleur-de-lune": ["/images/products/fleur-de-lune.png"],
-  "santal-parchment": [
-    "/images/products/santal-parchment.png",
-    "/images/products/santal-parchment-2.png",
-    "/images/products/santal-parchment-3.png",
-    "/images/products/santal-parchment-4.png",
-  ],
-  "noir-cocoon": ["/images/products/noir-cocoon.png"],
-  "sol-dor": ["/images/products/sol-dor.png"],
-  "atelier-oud": ["/images/products/atelier-oud.png"],
-  "rose-absolute": ["/images/products/rose-absolute.png"],
-};
-
 export function resolveProductImages(product: Product): string[] {
-  if (product.images.length > 0) {
-    return product.images;
-  }
-
-  return IMAGE_FALLBACKS[product.id] ?? [];
+  return product.images;
 }
 
 const SORT_VALUES: ProductSort[] = [

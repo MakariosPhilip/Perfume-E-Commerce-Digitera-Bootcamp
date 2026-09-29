@@ -44,6 +44,17 @@ export type ProductListResult = {
   pageSize: number;
 };
 
+export type ProductFilterOption = {
+  id: string;
+  label: string;
+};
+
+export type ProductFilterOptions = {
+  categories: ProductFilterOption[];
+  scentFamilies: ProductFilterOption[];
+  occasions: ProductFilterOption[];
+};
+
 export type ProductSearchParams = Record<
   string,
   string | string[] | undefined

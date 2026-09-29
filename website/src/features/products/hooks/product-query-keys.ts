@@ -7,4 +7,5 @@ export const productQueryKeys = {
   all: ["products"] as const,
   list: (query: ProductListQuery) => ["products", "list", query] as const,
   detail: (id: ProductId) => ["products", "detail", id] as const,
+  filterOptions: () => ["products", "filterOptions"] as const,
 };

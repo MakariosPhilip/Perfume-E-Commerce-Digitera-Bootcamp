@@ -11,6 +11,8 @@
     "dev": "sanity dev",
     "start": "sanity start",
     "seed": "sanity exec scripts/seed.ts --with-user-token",
+    "import-images": "sanity exec scripts/import-product-images.ts --with-user-token",
+    "replace-catalog": "sanity exec scripts/replace-catalog.ts --with-user-token",
     "typegen": "sanity schemas extract --force && sanity typegen generate"
   },
   "keywords": [

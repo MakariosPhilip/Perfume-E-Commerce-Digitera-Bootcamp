@@ -19,17 +19,17 @@ export function ProductCard({ product }: ProductCardProps) {
   const image = resolveProductImages(product)[0];
 
   return (
-    <article className="flex min-w-0 flex-1 flex-col items-start gap-4 self-stretch rounded-lg bg-white p-4">
+    <article className="flex min-w-0 flex-1 flex-col items-start gap-4 self-stretch rounded-lg bg-white p-4 transition-[transform,box-shadow] duration-300 ease-out hover:-translate-y-1 hover:shadow-lg motion-reduce:transition-none">
       <Link
         href={productPaths.detail(product.id)}
-        className="relative h-[240px] w-full shrink-0 overflow-hidden rounded sm:h-[280px] lg:h-[320px]"
+        className="group relative h-[240px] w-full shrink-0 overflow-hidden rounded sm:h-[280px] lg:h-[320px]"
       >
         {image ? (
           <Image
             src={image}
             alt={product.name}
             fill
-            className="rounded object-cover"
+            className="rounded object-cover transition-transform duration-300 group-hover:scale-105 motion-reduce:transition-none"
             sizes="(min-width: 1280px) 28vw, (min-width: 640px) 45vw, 100vw"
           />
         ) : (
@@ -57,7 +57,7 @@ export function ProductCard({ product }: ProductCardProps) {
         </div>
         <button
           type="button"
-          className="flex w-full cursor-pointer items-center justify-center rounded border border-solid border-[#ebe6de] py-3 text-[11px] font-semibold uppercase whitespace-nowrap text-[#1a1a1a]"
+          className="flex w-full cursor-pointer items-center justify-center rounded border border-solid border-[#ebe6de] py-3 text-[11px] font-semibold uppercase whitespace-nowrap text-[#1a1a1a] transition-colors duration-300 hover:border-[#1a1a1a] hover:bg-[#1a1a1a] hover:text-white"
           onClick={() =>
             addItem({
               productId: product.id,

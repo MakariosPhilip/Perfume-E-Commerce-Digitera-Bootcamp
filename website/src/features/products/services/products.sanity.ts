@@ -1,9 +1,14 @@
 import { urlFor } from "@/sanity/image";
 import { client } from "@/sanity/client";
-import { PRODUCT_QUERY, productsListQuery } from "@/sanity/queries";
+import {
+  PRODUCT_FILTER_OPTIONS_QUERY,
+  PRODUCT_QUERY,
+  productsListQuery,
+} from "@/sanity/queries";
 import type { ProductsService } from "@/features/products/services/products.service";
 import type {
   Product,
+  ProductFilterOptions,
   ProductOption,
 } from "@/features/products/types/product.types";
 import {
@@ -111,5 +116,9 @@ export const sanityProductsService: ProductsService = {
   async getById(id) {
     const document = await client.fetch(PRODUCT_QUERY, { slug: id });
     return toProduct(document);
+  },
+
+  async filterOptions() {
+    return client.fetch<ProductFilterOptions>(PRODUCT_FILTER_OPTIONS_QUERY);
   },
 };

@@ -30,7 +30,7 @@ function ProductImagesComponent({ product }: ProductImagesProps) {
 
   return (
     <div className="flex w-full min-w-0 flex-1 flex-col items-start gap-4">
-      <div className="relative h-[360px] w-full overflow-hidden rounded-lg sm:h-[480px] lg:h-[600px]">
+      <div className="relative h-[360px] w-full overflow-hidden rounded-lg bg-[#f4f0eb] sm:h-[480px] lg:h-[600px]">
         {images.map((src, index) => (
           <Image
             key={`${src}-${index}`}
@@ -40,7 +40,7 @@ function ProductImagesComponent({ product }: ProductImagesProps) {
             priority
             unoptimized={src.startsWith("/")}
             className={cn(
-              "object-cover",
+              "object-contain p-3",
               index === selected ? "z-10 opacity-100" : "z-0 opacity-0",
             )}
             sizes="(min-width: 1024px) 50vw, 100vw"

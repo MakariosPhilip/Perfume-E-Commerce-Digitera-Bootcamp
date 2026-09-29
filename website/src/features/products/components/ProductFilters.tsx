@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useProductFilterOptions } from "@/features/products/hooks/useProductFilterOptions";
 import { useProductFilters } from "@/features/products/hooks/useProductFilters";
 import type { ProductListQuery } from "@/features/products/types/product.types";
 import {
@@ -16,27 +17,6 @@ type FilterOption = {
 };
 
 type CheckboxTone = "gold" | "ink";
-
-const CATEGORIES: FilterOption[] = [
-  { id: "pure-extractions", label: "Pure Extractions" },
-  { id: "private-reserve", label: "Private Reserve" },
-  { id: "atelier-oils", label: "Atelier Oils" },
-  { id: "discovery-vault", label: "Discovery Vault" },
-];
-
-const SCENT_FAMILIES: FilterOption[] = [
-  { id: "floral", label: "Floral" },
-  { id: "woody", label: "Woody" },
-  { id: "oriental", label: "Oriental" },
-  { id: "fresh", label: "Fresh" },
-];
-
-const OCCASIONS: FilterOption[] = [
-  { id: "personal-use", label: "Personal Use" },
-  { id: "wedding", label: "Wedding" },
-  { id: "gift-sets", label: "Gift Sets" },
-  { id: "birthday", label: "Birthday" },
-];
 
 function FilterCheckbox({
   option,
@@ -357,6 +337,7 @@ function PriceRangeFilter({
 
 export function ProductFilters({ query }: { query: ProductListQuery }) {
   const [open, setOpen] = useState(false);
+  const { data: filterOptions } = useProductFilterOptions();
   const {
     search,
     categories,
@@ -395,7 +376,7 @@ export function ProductFilters({ query }: { query: ProductListQuery }) {
           alt=""
           width={14}
           height={14}
-          className={cn("transition-transform", open && "rotate-180")}
+          className={cn("transition-transform duration-300", open && "rotate-180")}
         />
       </button>
       <div
@@ -409,7 +390,7 @@ export function ProductFilters({ query }: { query: ProductListQuery }) {
         <div className="h-px w-full bg-[#ebe6de]" />
         <FilterBlock
           title="Category"
-          options={CATEGORIES}
+          options={filterOptions?.categories ?? []}
           selected={categories}
           tone="gold"
           onToggle={toggleCategory}
@@ -417,7 +398,7 @@ export function ProductFilters({ query }: { query: ProductListQuery }) {
         <div className="h-px w-full bg-[#ebe6de]" />
         <FilterBlock
           title="Scent Family"
-          options={SCENT_FAMILIES}
+          options={filterOptions?.scentFamilies ?? []}
           selected={scentFamilies}
           tone="ink"
           onToggle={toggleScentFamily}
@@ -425,7 +406,7 @@ export function ProductFilters({ query }: { query: ProductListQuery }) {
         <div className="h-px w-full bg-[#ebe6de]" />
         <FilterBlock
           title="Occasion"
-          options={OCCASIONS}
+          options={filterOptions?.occasions ?? []}
           selected={occasions}
           tone="ink"
           onToggle={toggleOccasion}

@@ -64,6 +64,12 @@ export function productsListQuery(sort: ProductListSort, start: number, end: num
   }`);
 }
 
+export const PRODUCT_FILTER_OPTIONS_QUERY = defineQuery(`{
+  "categories": *[_type == "category" && defined(slug.current)] | order(title asc) { "id": slug.current, "label": title },
+  "scentFamilies": *[_type == "scentFamily" && defined(slug.current)] | order(title asc) { "id": slug.current, "label": title },
+  "occasions": *[_type == "occasion" && defined(slug.current)] | order(title asc) { "id": slug.current, "label": title }
+}`);
+
 export const PRODUCT_QUERY = defineQuery(`
   *[_type == "product" && slug.current == $slug][0] ${productFields}
 `);

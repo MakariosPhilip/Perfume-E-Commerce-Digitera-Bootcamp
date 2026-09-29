@@ -1,6 +1,7 @@
 import { apiGet } from "@/lib/api/client";
 import type {
   Product,
+  ProductFilterOptions,
   ProductListQuery,
   ProductListResult,
 } from "@/features/products/types/product.types";
@@ -26,7 +27,7 @@ function toQueryString(query: ProductListQuery): string {
 }
 
 /**
- * HTTP catalog client. Not used while NEXT_PUBLIC_USE_MOCK_API is true.
+ * HTTP catalog client reserved for a future backend integration.
  */
 export const httpProductsService: ProductsService = {
   async list(query) {
@@ -35,5 +36,9 @@ export const httpProductsService: ProductsService = {
 
   async getById(id) {
     return apiGet<Product>(`/products/${id}`);
+  },
+
+  async filterOptions() {
+    return apiGet<ProductFilterOptions>("/products/filters");
   },
 };

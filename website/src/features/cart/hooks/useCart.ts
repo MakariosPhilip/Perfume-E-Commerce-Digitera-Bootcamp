@@ -23,7 +23,7 @@ export function useCart() {
       amount > 1
         ? `${amount} × ${input.name} added to cart`
         : `${input.name} added to cart`;
-    showToast(message);
+    showToast(message, input.image);
   };
 
   return {

@@ -1,8 +1,7 @@
-import { env } from "@/config/env";
-import { mockProductsService } from "@/features/products/services/products.mock";
 import { sanityProductsService } from "@/features/products/services/products.sanity";
 import type {
   Product,
+  ProductFilterOptions,
   ProductId,
   ProductListQuery,
   ProductListResult,
@@ -11,10 +10,7 @@ import type {
 export type ProductsService = {
   list(query: ProductListQuery): Promise<ProductListResult>;
   getById(id: ProductId): Promise<Product | null>;
+  filterOptions(): Promise<ProductFilterOptions>;
 };
 
-export function createProductsService(): ProductsService {
-  return env.useMockApi ? mockProductsService : sanityProductsService;
-}
-
-export const productsService = createProductsService();
+export const productsService: ProductsService = sanityProductsService;

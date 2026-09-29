@@ -12,12 +12,12 @@ export class ApiError extends Error {
 
 /**
  * Minimal HTTP helper for feature services.
- * There is no backend yet — this is used only when mock data is disabled.
+ * Reserved for feature services that use an external HTTP API.
  */
 export async function apiGet<T>(path: string): Promise<T> {
   if (!env.apiBaseUrl) {
     throw new Error(
-      "NEXT_PUBLIC_API_BASE_URL is not set. Enable mock data or provide an API base URL.",
+      "NEXT_PUBLIC_API_BASE_URL is not set. Provide an API base URL to use this service.",
     );
   }
 
