@@ -1,0 +1,21 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "services": {
+    "dashboard": {
+      "root": "dashboard",
+      "framework": "sanity"
+    },
+    "website": {
+      "root": "website",
+      "framework": "nextjs"
+    }
+  },
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": {
+        "service": "website"
+      }
+    }
+  ]
+}
